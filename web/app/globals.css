@@ -1,0 +1,328 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar-background);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: var(--font-geist-sans), -apple-system, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+/*
+  "Midnight Signal" palette
+  Warm-tinted darks (not pure neutral — slight blue undertone)
+  High contrast text for readability
+  Color only for status indicators
+*/
+:root {
+  --background: #fafaf9;
+  --foreground: #1c1917;
+  --card: #ffffff;
+  --card-foreground: #1c1917;
+  --popover: #ffffff;
+  --popover-foreground: #1c1917;
+  --primary: #1c1917;
+  --primary-foreground: #fafaf9;
+  --secondary: #f5f5f4;
+  --secondary-foreground: #1c1917;
+  --muted: #f5f5f4;
+  --muted-foreground: #78716c;
+  --accent: #f5f5f4;
+  --accent-foreground: #1c1917;
+  --destructive: #dc2626;
+  --border: #e7e5e4;
+  --input: #e7e5e4;
+  --ring: #a8a29e;
+  --radius: 0.5rem;
+  --sidebar-background: #fafaf9;
+  --sidebar-foreground: #44403c;
+  --sidebar-primary: #1c1917;
+  --sidebar-primary-foreground: #fafaf9;
+  --sidebar-accent: #f5f5f4;
+  --sidebar-accent-foreground: #1c1917;
+  --sidebar-border: #e7e5e4;
+  --sidebar-ring: #a8a29e;
+  --chart-1: #2563eb;
+  --chart-2: #16a34a;
+  --chart-3: #d97706;
+  --chart-4: #9333ea;
+  --chart-5: #e11d48;
+}
+
+.dark {
+  /* Glass UI: near-black canvas, translucent glass surfaces.
+     Kept shadcn var names intact so existing Tailwind utilities resolve;
+     `--bg-base` + `--glass-*` + `--accent-*` add glass-specific tokens. */
+  --background: #07080c;
+  --foreground: #e7e5e4;
+  --card: #141418;
+  --card-foreground: #e7e5e4;
+  /* ── Glass tokens (HANDOFF §1) ─────────────────────────── */
+  --bg-base: #07080c;
+  --fg: #e7e5e4;
+  --fg-dim: #a8a29e;
+  --fg-muted: #78716c;
+  --glass-bg:        rgba(20,20,24,0.48);
+  --glass-bg-strong: rgba(24,24,30,0.66);
+  --glass-hi:        rgba(255,255,255,0.06);
+  --border-strong:   rgba(255,255,255,0.14);
+  --accent-blue:    #7ab7ff;
+  --accent-violet:  #c4b5fd;
+  --accent-emerald: #6ee7b7;
+  --accent-amber:   #fcd34d;
+  --accent-rose:    #fda4af;
+  --r-panel: 20px;
+  --r-card:  14px;
+  --r-ctl:   10px;
+  --ease-spring: cubic-bezier(.34,1.56,.64,1);
+  --ease-out:    cubic-bezier(.16,1,.3,1);
+  --popover: #141414;
+  --popover-foreground: #e7e5e4;
+  --primary: #e7e5e4;
+  --primary-foreground: #0c0c0c;
+  --secondary: #1c1c1c;
+  --secondary-foreground: #e7e5e4;
+  --muted: #1c1c1c;
+  --muted-foreground: #78716c;
+  --accent: #1c1c1c;
+  --accent-foreground: #e7e5e4;
+  --destructive: #b91c1c;
+  --border: #292524;
+  --input: #292524;
+  --ring: #57534e;
+  --sidebar-background: #0a0a0a;
+  --sidebar-foreground: #a8a29e;
+  --sidebar-primary: #e7e5e4;
+  --sidebar-primary-foreground: #0c0c0c;
+  --sidebar-accent: #1c1c1c;
+  --sidebar-accent-foreground: #e7e5e4;
+  --sidebar-border: #1c1c1c;
+  --sidebar-ring: #57534e;
+  --chart-1: #3b82f6;
+  --chart-2: #22c55e;
+  --chart-3: #f59e0b;
+  --chart-4: #a855f7;
+  --chart-5: #f43f5e;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    /* Prevent Mac trackpad 2-finger swipe from triggering browser back/forward */
+    overscroll-behavior-x: none;
+  }
+}
+
+/* Safe-area utilities for installed PWA (iOS standalone mode).
+   With viewport-fit=cover + black-translucent status bar, content extends
+   under the notch (top) and home indicator (bottom). These add the inset
+   as padding so interactive elements aren't covered.
+
+   IMPORTANT: do NOT combine pb-safe with a fixed `h-N` Tailwind class on the
+   same element — `box-sizing: border-box` (default) means the inset eats
+   into the height instead of adding to it. Either:
+     (a) wrap a fixed-height inner div in a pb-safe outer div, or
+     (b) use h-[calc(...)] to add inset to the height. */
+.pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+.pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+.pl-safe { padding-left: env(safe-area-inset-left, 0px); }
+.pr-safe { padding-right: env(safe-area-inset-right, 0px); }
+
+/* Stacked variant — preserves an existing base padding (e.g. py-3 on mobile
+   action bars) AND adds the iOS safe-area inset on top. Use when you need
+   visible breathing room in non-standalone mode (where the inset is 0) and
+   home-indicator clearance in standalone mode. */
+.pb-safe-3 { padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)); }
+
+/* Legacy alias — same behavior as pb-safe; kept for older call sites.
+   New code should use pb-safe for consistency. */
+.safe-area-pb {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Glass UI scrollbar — 4px thumb, brightens on hover (HANDOFF §6) */
+*::-webkit-scrollbar { width: 4px; height: 4px; }
+*::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); border-radius: 2px; }
+*::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.18); }
+*::-webkit-scrollbar-track { background: transparent; }
+
+/* Mail list item — active state with left accent bar */
+[data-active="true"] {
+  position: relative;
+}
+[data-active="true"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--foreground);
+}
+
+/* Smooth panel transitions */
+[data-slot="resizable-panel"] {
+  transition: min-width 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Glass UI components (HANDOFF §3) ──────────────────── */
+@layer components {
+  .glass-panel {
+    position: relative;
+    border-radius: var(--r-panel);
+    background: var(--glass-bg);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow:
+      inset 0 1px 0 var(--glass-hi),
+      inset 0 0 0 1px rgba(255,255,255,0.02),
+      0 20px 60px rgba(0,0,0,0.45),
+      0 2px 8px rgba(0,0,0,0.3);
+  }
+  .glass-card {
+    border-radius: var(--r-card);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: transform .3s var(--ease-out), border-color .3s, box-shadow .3s;
+  }
+  .glass-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-strong);
+    box-shadow: 0 18px 48px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+  .hairline {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+  }
+  /* Legacy `.glass` — kept as an alias for backward compatibility with
+     existing ai-panel usages. Phase 3/4 will migrate these to .glass-card. */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: all 0.25s var(--ease-out);
+  }
+  .glass:hover {
+    background: var(--glass-bg-strong);
+    border-color: var(--border-strong);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* ── Keyframes (HANDOFF §2 §3 §4 §5) ────────────────────── */
+@keyframes drift        { 0%   { transform: translate(0,0) scale(1); }
+                          100% { transform: translate(40px,-30px) scale(1.05); } }
+@keyframes rise         { from { opacity: 0; transform: translateY(12px) scale(.995); }
+                          to   { opacity: 1; transform: none; } }
+@keyframes slideIn      { from { opacity: 0; transform: translateX(-8px); }
+                          to   { opacity: 1; transform: none; } }
+@keyframes bouncePulse  { 0%,100% { transform: scale(1);    opacity: 1; }
+                          50%     { transform: scale(1.25); opacity: .75; } }
+@keyframes pulse        { 0%,100% { opacity: 1; transform: scale(1); }
+                          50%     { opacity: .5; transform: scale(1.3); } }
+@keyframes spin         { to { transform: rotate(360deg); } }
+@keyframes sparkle      { 0%,100% { transform: rotate(0deg)  scale(1);    opacity: .8; }
+                          50%     { transform: rotate(15deg) scale(1.15); opacity: 1; } }
+@keyframes ripple       { to { transform: scale(4); opacity: 0; } }
+@keyframes shimmer      { 0%   { background-position: 200% 0; }
+                          100% { background-position: -200% 0; } }
+@keyframes pulse-glow   { 0%,100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.4); }
+                          50%     { box-shadow: 0 0 0 4px rgba(220,38,38,0); } }
+
+/* ── Avatar palette (HANDOFF §4.2) ──────────────────────── */
+.avatar-c0 { background: linear-gradient(135deg,#f43f5e,#b91c1c); box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 0 14px rgba(244,63,94,0.55), 0 0 28px rgba(244,63,94,0.28) !important; }
+.avatar-c1 { background: linear-gradient(135deg,#f97316,#c2410c); box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 0 14px rgba(249,115,22,0.55), 0 0 28px rgba(249,115,22,0.28) !important; }
+.avatar-c2 { background: linear-gradient(135deg,#f59e0b,#b45309); box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 0 14px rgba(245,158,11,0.55), 0 0 28px rgba(245,158,11,0.28) !important; }
+.avatar-c3 { background: linear-gradient(135deg,#84cc16,#3f6212); box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 0 14px rgba(132,204,22,0.55), 0 0 28px rgba(132,204,22,0.28) !important; }
+.avatar-c4 { background: linear-gradient(135deg,#14b8a6,#0f766e); box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 0 14px rgba(20,184,166,0.55), 0 0 28px rgba(20,184,166,0.28) !important; }
+.avatar-c5 { background: linear-gradient(135deg,#0ea5e9,#0369a1); box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 0 14px rgba(14,165,233,0.55), 0 0 28px rgba(14,165,233,0.28) !important; }
+.avatar-c6 { background: linear-gradient(135deg,#8b5cf6,#6d28d9); box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 0 14px rgba(139,92,246,0.55), 0 0 28px rgba(139,92,246,0.28) !important; }
+.avatar-c7 { background: linear-gradient(135deg,#ec4899,#be185d); box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 0 14px rgba(236,72,153,0.55), 0 0 28px rgba(236,72,153,0.28) !important; }
+
+/* Nav item icon hover micro-animation (HANDOFF §4.1) */
+.nav-item svg { transition: transform .2s var(--ease-spring); }
+.nav-item:hover svg { transform: scale(1.12) rotate(-3deg); }
+
+/* Category icon chips (HANDOFF §4.3) — applied via .c-{primary|track|news|junk} */
+.c-primary .cat-ico { background: rgba(122,183,255,0.15); border-color: rgba(122,183,255,0.3); color: #7ab7ff; }
+.c-track   .cat-ico { background: rgba(110,231,183,0.15); border-color: rgba(110,231,183,0.3); color: #6ee7b7; }
+.c-news    .cat-ico { background: rgba(161,161,170,0.12); border-color: rgba(161,161,170,0.3); color: #d4d4d8; }
+.c-junk    .cat-ico { background: rgba(252,211,77,0.12);  border-color: rgba(252,211,77,0.3);  color: #fcd34d; }
+
+/* ── Public demo (DEMO_MODE=1 adds html.demo-mode) ─────────────────────
+   A fixed strip sits above the app; the page is pushed down by its height
+   so nothing is covered. Full-height and full-screen layers subtract it. */
+:root { --demo-banner-h: 0px; }
+html.demo-mode { --demo-banner-h: 28px; }
+@media (max-width: 640px) {
+  html.demo-mode { --demo-banner-h: 40px; }
+}
+html.demo-mode body { padding-top: var(--demo-banner-h); }
+html.demo-mode .h-screen { height: calc(100vh - var(--demo-banner-h)); }
+html.demo-mode .fixed.inset-0 { top: var(--demo-banner-h); }
+.demo-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: var(--demo-banner-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.3;
+  color: #1c1917;
+  background: #fcd34d;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 640px) {
+  .demo-banner { font-size: 11px; }
+}

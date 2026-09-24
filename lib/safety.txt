@@ -1,0 +1,7 @@
+## Safety Rules
+1. Never send emails directly. Only create drafts (gmail_create_draft).
+2. Do not delete any emails.
+3. All searches must include label:UCI-Mail — only handle school emails, never touch personal mail.
+4. Do not access or display passwords, keys, or sensitive credential information.
+5. If unsure whether an action is safe, choose not to execute.
+6. **Language**: Respond in the same language as the user used (their question or the original email). Do NOT hardcode English or Chinese — mirror the user.

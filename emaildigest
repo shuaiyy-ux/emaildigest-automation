@@ -1,0 +1,93 @@
+#!/bin/bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# The public demo must never reach the claude.ai Gmail connector.
+if [[ "${DEMO_MODE:-}" == "1" ]]; then
+    echo "Error: emaildigest CLI is disabled when DEMO_MODE=1" >&2
+    exit 3
+fi
+
+source "$SCRIPT_DIR/config.sh"
+source "$SCRIPT_DIR/lib/common.sh"
+
+mkdir -p "$EMAILDIGEST_LOG_DIR"
+
+show_help() {
+    cat <<EOF
+EmailDigest — school email automation tool (UCI → Gmail)
+
+Usage: emaildigest <command> [options]
+
+Commands:
+  digest    📬 Email digest — search unread emails, classify, and generate a summary draft
+  classify  🏷️  Email classification — classify emails by category
+  inquiry   💬 Smart inquiry — ask natural-language questions about your mailbox
+  setup     ⚙️  Initialize — check Gmail MCP connection status
+  help      📖 Show this help message
+
+Common options:
+  --hours N     Hours to look back (default: ${EMAILDIGEST_DEFAULT_HOURS})
+  --budget N    Budget limit in USD (default: ${EMAILDIGEST_MAX_BUDGET})
+
+Examples:
+  emaildigest digest                       # Digest of the last ${EMAILDIGEST_DEFAULT_HOURS} hours
+  emaildigest digest --hours 48            # Last 48 hours
+  emaildigest classify --hours 72          # Classify the last 3 days of emails
+  emaildigest inquiry "Who emailed me last week about assignments?"
+  emaildigest setup                        # Check connection status
+EOF
+}
+
+# One read-only Gmail connector call, locked down like run_claude in lib/common.sh.
+setup_claude() {
+    local tool="$1" prompt="$2"
+    local workdir="${EMAILDIGEST_CLAUDE_CWD:-${TMPDIR:-/tmp}/emaildigest-claude-cwd}"
+    mkdir -p "$workdir"
+    (cd "$workdir" && printf '%s' "$prompt" | claude -p --max-budget-usd 0.05 \
+        --tools "" --setting-sources "" --disable-slash-commands \
+        --permission-mode dontAsk --allowedTools "$tool" \
+        2>>"$EMAILDIGEST_LOG_DIR/setup.log")
+}
+
+do_setup() {
+    echo "=== EmailDigest setup check ==="
+    echo ""
+    echo "Mail architecture: school address (owner@example.edu) → Gmail (forwarded) → label:UCI-Mail"
+    echo ""
+    echo "Checking Gmail MCP connection..."
+    local result
+    result=$(setup_claude mcp__claude_ai_Gmail__gmail_get_profile "Call gmail_get_profile to fetch mailbox info. Return only the email address.") || true
+    if [[ -n "$result" ]]; then
+        echo "✅ Gmail MCP connected: $result"
+    else
+        echo "❌ Gmail MCP not connected. Make sure Claude Code is signed in to Gmail."
+    fi
+    echo ""
+    echo "Checking UCI-Mail label..."
+    result=$(setup_claude mcp__claude_ai_Gmail__gmail_list_labels "Call gmail_list_labels and check whether a UCI-Mail label exists. Answer only 'exists' or 'missing'.") || true
+    echo "Label status: $result"
+    echo ""
+    echo "If not set up, complete these steps:"
+    echo "  1. Configure an Outlook forwarding rule → forward to Gmail"
+    echo "  2. In Gmail, create a filter: from:(<your school address>) → apply label UCI-Mail"
+}
+
+check_dependencies
+
+command="${1:-help}"
+[[ $# -gt 0 ]] && shift
+
+case "$command" in
+    digest)    source "$SCRIPT_DIR/commands/digest.sh" "$@" ;;
+    classify)  source "$SCRIPT_DIR/commands/classify.sh" "$@" ;;
+    inquiry)   source "$SCRIPT_DIR/commands/inquiry.sh" "$@" ;;
+    setup)     do_setup ;;
+    help|--help|-h) show_help ;;
+    *)
+        echo "Error: unknown command '$command'" >&2
+        echo "Run 'emaildigest help' to see available commands." >&2
+        exit 1
+        ;;
+esac

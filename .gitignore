@@ -1,0 +1,52 @@
+node_modules/
+.next/
+web/.next/
+web/node_modules/
+.DS_Store
+_ref_zero/
+_ref_shadcn/
+data/public/
+web/public/models/
+
+# Runtime data — never committed (contains personal emails + attachments)
+data.db
+data.db-wal
+data.db-shm
+data.db.backup-*
+data.db.bak*
+data.db.pre-*
+/attachments/
+data/email-attachments/
+logs/
+.claude/scheduled_tasks.lock
+
+# Secrets
+web/.env.local
+web/.env*.local
+.env.local
+mcp-server/node_modules
+mcp-server/dist/
+
+# Dev data exports — personal application info, not meant for git
+*.csv
+import-preview.csv
+job_applications.csv
+
+# SetFit work-classifier — Python training artifacts + large ONNX model
+training/setfit-work/.venv/
+training/setfit-work/out/
+training/setfit-work/checkpoints/
+training/setfit-work/__pycache__/
+# 86 MB ONNX file — deploy via scp, not git. The small config / tokenizer
+# / head.json files under web/models/setfit-{work,classify}/ ARE committed.
+web/models/setfit-work/onnx/model.onnx
+
+# SetFit 4-way Inbox classifier — same layout
+training/setfit-classify/out/
+training/setfit-classify/checkpoints/
+training/setfit-classify/__pycache__/
+web/models/setfit-classify/onnx/model.onnx
+
+# Codex 本地配置
+.codex/
+.flows/.last-edit.json

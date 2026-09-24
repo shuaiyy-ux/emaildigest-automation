@@ -1,0 +1,19 @@
+{
+  "name": "emaildigest-mcp-server",
+  "version": "0.1.0",
+  "description": "MCP stdio server exposing local SQLite read-only tools (read_full_email, get_application) for Claude CLI in the Ask AI pipeline.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.20.0",
+    "better-sqlite3": "^12.4.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "@types/node": "^24.0.0",
+    "@types/better-sqlite3": "^7.6.13"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "emaildigest-db": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["mcp-server/dist/server.js"]
+    }
+  }
+}
